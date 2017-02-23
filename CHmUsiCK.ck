@@ -1,7 +1,17 @@
 public class Chmusick extends Chubgraph {
     
     8 => int Division;
+    120 => float TEMPO;
     
+    public float tempo(float t)
+    {
+        t => TEMPO;
+        return TEMPO;
+    }
+    public float tempo()
+    {
+        return TEMPO;
+    }
     private dur convert(float beat)
     // ftod - beat(float) convertion to dur
     {
@@ -314,10 +324,49 @@ public class Chmusick extends Chubgraph {
     {
         buffer => Envelope envelope => outlet;
         
-        60 => int TEMPO;
-        1 => int CYCLES;
-        
         if(mode == 0){
+            while(true)
+            {
+                for(0 => int i; i < sample.cap(); i++)
+                {
+                    if (sample[i] != 0)
+                    {
+                        envelope.keyOn();
+                        0 => buffer.pos;
+                        Dur(TEMPO/2,Division)/sample.cap() => now;
+                    }
+                    else
+                    {
+                        envelope.keyOff();
+                        Dur(TEMPO/2,Division)/sample.cap() => now;
+                    }
+                    
+                }
+            }
+        }
+        if(mode == 1){
+            
+            while(true)
+            {
+                for(0 => int i; i < sample.cap(); i++)
+                {
+                    if (sample[i] == 1)
+                    {
+                        envelope.keyOn();
+                        0 => buffer.pos;
+                        Dur(TEMPO,Division) => now;
+                    }
+                    
+                    
+                    if (sample[i] == 0)
+                    {
+                        envelope.keyOff();
+                        Dur(TEMPO,Division) => now;
+                    }
+                }
+            }
+        }
+        if(mode == 2){
             while(true)
             {
                 for(0 => int i; i < sample.cap(); i++)
@@ -331,32 +380,29 @@ public class Chmusick extends Chubgraph {
                     else
                     {
                         envelope.keyOff();
-                        Dur(TEMPO,Division)/sample.cap() => now;
+                        Dur(TEMPO,Division) => now;
                     }
                     
                 }
             }
         }
-        if(mode == 1){
-            2 => CYCLES;
-            
+        if(mode == 3){
             while(true)
             {
                 for(0 => int i; i < sample.cap(); i++)
                 {
-                    if (sample[i] == 1)
+                    if (sample[i] != 0)
                     {
                         envelope.keyOn();
                         0 => buffer.pos;
-                        Dur(TEMPO,8)/sample.cap() => now;
-                    }
-                    
-                    
-                    if (sample[i] == 0)
-                    {
-                        envelope.keyOff();
                         Dur(TEMPO,Division) => now;
                     }
+                    else
+                    {
+                        envelope.keyOff();
+                        Dur(TEMPO,Division)/sample.cap() => now;
+                    }
+                    
                 }
             }
         }
@@ -368,9 +414,6 @@ public class Chmusick extends Chubgraph {
     {
         osc => Envelope envelope => outlet;
         
-        60 => int TEMPO;
-        1 => int CYCLES;
-        
         if(mode == 0){
             while(true)
             {
@@ -380,18 +423,17 @@ public class Chmusick extends Chubgraph {
                     {
                         envelope.keyOn();
                         Std.mtof(sample[i]) => osc.freq;
-                        Dur(TEMPO,Division)/sample.cap() => now;
+                        Dur(TEMPO/2,Division)/sample.cap() => now;
                     }
                     else
                     {
                         envelope.keyOff();
-                        Dur(TEMPO,Division)/sample.cap() => now;
+                        Dur(TEMPO/2,Division)/sample.cap() => now;
                     }
                 }
             }
         }
         if(mode == 1){
-            2 => CYCLES;
             
             while(true)
             {
@@ -409,6 +451,47 @@ public class Chmusick extends Chubgraph {
                     {
                         envelope.keyOff();
                         Dur(TEMPO,Division) => now;
+                    }
+                }
+            }
+        }
+        if(mode == 2){
+            
+            while(true)
+            {
+                for(0 => int i; i < sample.cap(); i++)
+                {
+                    if (sample[i] == 1)
+                    {
+                        envelope.keyOn();
+                        Std.mtof(sample[i]) => osc.freq;
+                        Dur(TEMPO,Division)/sample.cap() => now;
+                    }
+                    
+                    
+                    if (sample[i] == 0)
+                    {
+                        envelope.keyOff();
+                        Dur(TEMPO,Division) => now;
+                    }
+                }
+            }
+        }
+        if(mode == 3){
+            while(true)
+            {
+                for(0 => int i; i < sample.cap(); i++)
+                {
+                    if (sample[i] != 0)
+                    {
+                        envelope.keyOn();
+                        Std.mtof(sample[i]) => osc.freq;
+                        Dur(TEMPO,Division) => now;
+                    }
+                    else
+                    {
+                        envelope.keyOff();
+                        Dur(TEMPO,Division)/sample.cap() => now;
                     }
                 }
             }
