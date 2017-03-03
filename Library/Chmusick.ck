@@ -1,8 +1,13 @@
 public class Chmusick extends Chubgraph {
-    
+
+    //Buffer buffer;
+
     8 => int Division;
-    120 => float TEMPO;
-    
+    120 => static float TEMPO;
+
+    4 => static int MEASURE;
+    4 => static int CYCLES;
+
     public float tempo(float t)
     {
         t => TEMPO;
@@ -16,14 +21,14 @@ public class Chmusick extends Chubgraph {
     // ftod - beat(float) convertion to dur
     {
         Std.fabs(beat) => beat;
-        
+
         60/beat => float tempo;
         return tempo::second;
     }
     private dur Dur(float beat, int div)
     {
         Std.abs(div) => div;
-        
+
         (div / 4.0) => float factor;
         (convert(beat) / factor) => dur tempo;
         return tempo;
@@ -49,7 +54,7 @@ public class Chmusick extends Chubgraph {
     // randomly fills an array with ones
     {
         int random[capacity];
-        
+
         for(0 => int i; i < random.cap(); i ++)
         {
             Math.random2(0,1) => random[i];
@@ -57,12 +62,12 @@ public class Chmusick extends Chubgraph {
         return random;
     }
     public int[] subArray(int pattern[], int toCut[])
-    // cuts an array pattern 
+    // cuts an array pattern
     // Thanx to Santiago Beta
     {
         toCut.size() => int newsize;
         int sub[newsize];
-        
+
         for(0 => int i; i < newsize; i++)
         {
             if(toCut[i] < pattern.size() && toCut[i] >= 0) {
@@ -79,7 +84,7 @@ public class Chmusick extends Chubgraph {
     {
         (pattern.size() * howmany)$int => int newsize;
         int truncated[newsize];
-        
+
         for(0 => int i; i < newsize; i++)
         {
             pattern[i] => truncated[i];
@@ -92,7 +97,7 @@ public class Chmusick extends Chubgraph {
         if(from >= 0 && to <= pattern.cap() && from < to)
         {
             int truncated[0];
-            
+
             for(from => int i; i < to; i++)
             {
                 truncated << pattern[i];
@@ -109,7 +114,7 @@ public class Chmusick extends Chubgraph {
     // reverse an array
     {
         int reversed[0];
-        
+
         for((pattern.cap()-1) => int i; i >= 0 ; i - 1 => i)
         {
             reversed << pattern[i];
@@ -120,10 +125,10 @@ public class Chmusick extends Chubgraph {
     // ramdomly add ones to an int array
     {
         int notes[0];
-        
+
         for(0 => int i; i < pattern.cap(); i++)
         {
-            if(pattern[i] != 0) 
+            if(pattern[i] != 0)
             {
                 notes << pattern[i];
             }
@@ -133,7 +138,7 @@ public class Chmusick extends Chubgraph {
             if(pattern[i] == 0 && maybe)
             {
                 notes[Math.random2(0, (notes.cap() - 1))] => pattern[i];
-            } 
+            }
         }
         return pattern;
     }
@@ -153,7 +158,7 @@ public class Chmusick extends Chubgraph {
     // fills an array of parameter size with ones
     {
         int everyArray[parameter];
-        
+
         if(parameter == 0)
         {
             everyArray << 0;
@@ -162,7 +167,7 @@ public class Chmusick extends Chubgraph {
         else
         {
             1 => everyArray[0];
-            
+
             for(1 => int i; i < everyArray.cap(); i++)
             {
                 0 => everyArray[i];
@@ -171,24 +176,24 @@ public class Chmusick extends Chubgraph {
         return everyArray;
     }
     public int[] every(int note, int parameter)
-    // fills an array -parameter sized-  with note 
+    // fills an array -parameter sized-  with note
     {
         int everyArray[parameter];
-        
+
         note => everyArray[0];
-        
+
         for(1 => int i; i < everyArray.cap(); i++)
         {
             0 => everyArray[i];
         }
-        
+
         return everyArray;
     }
     public int[] transpose(int pattern[], int param)
     // transpose note by param
     {
         int newPattern[pattern.cap()];
-        
+
         for(0 => int i; i < pattern.cap(); i++)
         {
             pattern[i] + param => newPattern[i];
@@ -199,9 +204,9 @@ public class Chmusick extends Chubgraph {
     // rotates int array pattern by one
     {
         int newPattern[pattern.cap()];
-        
+
         pattern[pattern.cap()-1] => newPattern[0];
-        
+
         for(0 => int i; i < (pattern.cap()-1); i++)
         {
             pattern[i] => newPattern[i+1];
@@ -212,7 +217,7 @@ public class Chmusick extends Chubgraph {
     // rotates int array pattern by move positions
     {
         int newPattern[pattern.cap()];
-        
+
         repeat(move)
         {
             rotate(pattern) @=> newPattern;
@@ -224,12 +229,12 @@ public class Chmusick extends Chubgraph {
     // retunrs the number of non zero positions in int array
     {
         0 => int notesOn;
-        
+
         for(0 => int i; i < pattern.cap(); i++)
         {
             if(pattern[i] != 0)
             {
-                1 +=> notesOn; 
+                1 +=> notesOn;
             }
         }
         return notesOn;
@@ -238,35 +243,35 @@ public class Chmusick extends Chubgraph {
     // returns the number of non zero positions in float array
     {
         0 => int notesOn;
-        
+
         for(0 => int i; i < pattern.cap(); i++)
         {
             if(pattern[i] != 0)
             {
-                1 +=> notesOn; 
+                1 +=> notesOn;
             }
         }
         return notesOn;
     }
     public int[] density(int pattern[], float parameter)
     //densify or degrade an array with a float parameter as percentage
-    {   
+    {
         int toReturn[pattern.cap()];
         pattern.cap() => float size;
-        
+
         if(parameter >= 0 && parameter <= 1)
         {
             Std.ftoi(size * parameter) => int toAdd;
-            
+
             if(counter(pattern) == toAdd) pattern @=> toReturn;
-            
+
             else
             {
                 if(counter(pattern) > toAdd)
                 {
                     counter(pattern) - toAdd => int c;
-                    
-                    while(c > 0) 
+
+                    while(c > 0)
                     {
                         for(0 => int i; i < pattern.cap(); i++)
                         {
@@ -283,8 +288,8 @@ public class Chmusick extends Chubgraph {
                 if(counter(pattern) < toAdd)
                 {
                     toAdd - counter(pattern) => int c;
-                    
-                    while(c > 0) 
+
+                    while(c > 0)
                     {
                         for(0 => int i; i < pattern.cap(); i++)
                         {
@@ -302,7 +307,7 @@ public class Chmusick extends Chubgraph {
         }
         else
         {
-            <<< "Parameter must be a number between 0 and 1">>>;  
+            <<< "Parameter must be a number between 0 and 1">>>;
         }
         return toReturn;
     }
@@ -310,8 +315,8 @@ public class Chmusick extends Chubgraph {
     // returns the same patern and the reversed appended
     {
         int toReturn[(pattern.cap()*2)];
-        (pattern.cap()*2) -1 => int countDown; 
-        
+        (pattern.cap()*2) -1 => int countDown;
+
         for(0 => int i; i < pattern.cap(); i++)
         {
             pattern[i] => toReturn[i];
@@ -323,8 +328,30 @@ public class Chmusick extends Chubgraph {
     public void play(SndBuf buffer, int sample[], int mode)
     {
         buffer => Envelope envelope => outlet;
-        
+
         if(mode == 0){
+
+            while(true)
+            {
+                for(0 => int i; i < sample.cap(); i++)
+                {
+                    if (sample[i] == 1)
+                    {
+                        envelope.keyOn();
+                        0 => buffer.pos;
+                        Dur(TEMPO,Division) => now;
+                    }
+
+
+                    if (sample[i] == 0)
+                    {
+                        envelope.keyOff();
+                        Dur(TEMPO,Division) => now;
+                    }
+                }
+            }
+        }
+        if(mode == 1){
             while(true)
             {
                 for(0 => int i; i < sample.cap(); i++)
@@ -340,29 +367,7 @@ public class Chmusick extends Chubgraph {
                         envelope.keyOff();
                         Dur(TEMPO/2,Division)/sample.cap() => now;
                     }
-                    
-                }
-            }
-        }
-        if(mode == 1){
-            
-            while(true)
-            {
-                for(0 => int i; i < sample.cap(); i++)
-                {
-                    if (sample[i] == 1)
-                    {
-                        envelope.keyOn();
-                        0 => buffer.pos;
-                        Dur(TEMPO,Division) => now;
-                    }
-                    
-                    
-                    if (sample[i] == 0)
-                    {
-                        envelope.keyOff();
-                        Dur(TEMPO,Division) => now;
-                    }
+
                 }
             }
         }
@@ -375,14 +380,14 @@ public class Chmusick extends Chubgraph {
                     {
                         envelope.keyOn();
                         0 => buffer.pos;
-                        Dur(TEMPO,Division)/sample.cap() => now;
+                        Dur(TEMPO,Division)/MEASURE => now;
                     }
                     else
                     {
                         envelope.keyOff();
-                        Dur(TEMPO,Division) => now;
+                        Dur(TEMPO,Division)/MEASURE => now;
                     }
-                    
+
                 }
             }
         }
@@ -395,14 +400,14 @@ public class Chmusick extends Chubgraph {
                     {
                         envelope.keyOn();
                         0 => buffer.pos;
-                        Dur(TEMPO,Division) => now;
+                        Dur(TEMPO,Division)*CYCLES/MEASURE => now;
                     }
                     else
                     {
                         envelope.keyOff();
-                        Dur(TEMPO,Division)/sample.cap() => now;
+                        Dur(TEMPO,Division)*CYCLES/MEASURE => now;
                     }
-                    
+
                 }
             }
         }
@@ -413,8 +418,50 @@ public class Chmusick extends Chubgraph {
     public void play(Osc osc, int sample[], int mode)
     {
         osc => Envelope envelope => outlet;
-        
+
         if(mode == 0){
+            while(true)
+            {
+                for(0 => int i; i < sample.cap(); i++)
+                {
+                    if (sample[i] != 0)
+                    {
+                        envelope.keyOn();
+                        Std.mtof(sample[i]) => osc.freq;
+                        Dur(TEMPO,Division) => now;
+                    }
+
+
+                    if (sample[i] == 0)
+                    {
+                        envelope.keyOff();
+                        Dur(TEMPO,Division) => now;
+                    }
+                }
+            }
+        }
+        if(mode == 1){
+            while(true)
+            {
+                for(0 => int i; i < sample.cap(); i++)
+                {
+                    if (sample[i] != 0)
+                    {
+                        envelope.keyOn();
+                        Std.mtof(sample[i]) => osc.freq;
+                        Dur(TEMPO,Division) => now;
+                    }
+
+
+                    if (sample[i] == 0)
+                    {
+                        envelope.keyOff();
+                        Dur(TEMPO,Division) => now;
+                    }
+                }
+            }
+        }
+        if(mode == 1){
             while(true)
             {
                 for(0 => int i; i < sample.cap(); i++)
@@ -433,42 +480,20 @@ public class Chmusick extends Chubgraph {
                 }
             }
         }
-        if(mode == 1){
-            
-            while(true)
-            {
-                for(0 => int i; i < sample.cap(); i++)
-                {
-                    if (sample[i] == 1)
-                    {
-                        envelope.keyOn();
-                        Std.mtof(sample[i]) => osc.freq;
-                        Dur(TEMPO,Division) => now;
-                    }
-                    
-                    
-                    if (sample[i] == 0)
-                    {
-                        envelope.keyOff();
-                        Dur(TEMPO,Division) => now;
-                    }
-                }
-            }
-        }
         if(mode == 2){
-            
+
             while(true)
             {
                 for(0 => int i; i < sample.cap(); i++)
                 {
-                    if (sample[i] == 1)
+                    if (sample[i] != 0)
                     {
                         envelope.keyOn();
                         Std.mtof(sample[i]) => osc.freq;
                         Dur(TEMPO,Division)/sample.cap() => now;
                     }
-                    
-                    
+
+
                     if (sample[i] == 0)
                     {
                         envelope.keyOff();
@@ -499,5 +524,195 @@ public class Chmusick extends Chubgraph {
     }
     public void play(Osc osc, int sample[]){
         play(osc, sample,0);
+    }
+    public void play(StkInstrument osc, int sample[], int mode)
+    {
+        osc => Envelope envelope => outlet;
+
+        if(mode == 0){
+            while(true)
+            {
+                for(0 => int i; i < sample.cap(); i++)
+                {
+                    if (sample[i] != 0)
+                    {
+                        envelope.keyOn();
+                        1.0 => osc.noteOn;
+                        Std.mtof(sample[i]) => osc.freq;
+                        Dur(TEMPO,Division) => now;
+                    }
+
+
+                    if (sample[i] == 0)
+                    {
+                        envelope.keyOff();
+                        0.0 => osc.noteOff;
+                        Dur(TEMPO,Division) => now;
+                    }
+                }
+            }
+        }
+        if(mode == 1){
+            while(true)
+            {
+                for(0 => int i; i < sample.cap(); i++)
+                {
+                    if (sample[i] != 0)
+                    {
+                        envelope.keyOn();
+                        1.0 => osc.noteOn;
+                        Std.mtof(sample[i]) => osc.freq;
+                        Dur(TEMPO/2,Division)/sample.cap() => now;
+                    }
+                    else
+                    {
+                        envelope.keyOff();
+                        0.0 => osc.noteOff;
+                        Dur(TEMPO/2,Division)/sample.cap() => now;
+                    }
+                }
+            }
+        }
+
+        if(mode == 2){
+
+            while(true)
+            {
+                for(0 => int i; i < sample.cap(); i++)
+                {
+                    if (sample[i] != 0)
+                    {
+                        envelope.keyOn();
+                        1.0 => osc.noteOn;
+                        Std.mtof(sample[i]) => osc.freq;
+                        Dur(TEMPO,Division)/sample.cap() => now;
+                    }
+
+
+                    if (sample[i] == 0)
+                    {
+                        envelope.keyOff();
+                        0.0 => osc.noteOff;
+                        Dur(TEMPO,Division) => now;
+                    }
+                }
+            }
+        }
+        if(mode == 3){
+            while(true)
+            {
+                for(0 => int i; i < sample.cap(); i++)
+                {
+                    if (sample[i] != 0)
+                    {
+                        envelope.keyOn();
+                        1.0 => osc.noteOn;
+                        Std.mtof(sample[i]) => osc.freq;
+                        Dur(TEMPO,Division) => now;
+                    }
+                    else
+                    {
+                        envelope.keyOff();
+                        0.0 => osc.noteOff;
+                        Dur(TEMPO,Division)/sample.cap() => now;
+                    }
+                }
+            }
+        }
+    }
+    public void play(StkInstrument osc, int sample[]){
+        play(osc, sample,0);
+    }
+    public void play(SndBuf buffer, string sample[], int mode)
+    {
+        buffer => Envelope envelope => outlet;
+        if(mode == 0)
+        {
+            while(true)
+            {
+                for(0 => int i; i < sample.cap(); i++)
+                {
+                    if (sample[i] != "~")
+                    {
+                        file(sample[i]) => buffer.read;
+                        envelope.keyOn();
+                        0 => buffer.pos;
+                        Dur(TEMPO,Division) => now;
+                    }
+                    
+                    
+                    if (sample[i] == "~")
+                    {
+                        envelope.keyOff();
+                        Dur(TEMPO,Division) => now;
+                    }
+                }
+            }
+        }
+        if(mode == 1)
+        {
+            while(true)
+            {
+                for(0 => int i; i < sample.cap(); i++)
+                {
+                    if (sample[i] != "~")
+                    {
+                        file(sample[i]) => buffer.read;
+                        envelope.keyOn();
+                        0 => buffer.pos;
+                        Dur(TEMPO,Division)/sample.cap() => now;
+                    }
+                    if (sample[i] == "~")
+                    {
+                        envelope.keyOff();
+                        Dur(TEMPO,Division)/sample.cap() => now;
+                    }
+                }
+            }
+        }
+        if(mode == 2)
+        {
+            while(true)
+            {
+                for(0 => int i; i < sample.cap(); i++)
+                {
+                    if (sample[i] != "~")
+                    {
+                        file(sample[i]) => buffer.read;
+                        envelope.keyOn();
+                        0 => buffer.pos;
+                        Dur(TEMPO,Division)/MEASURE => now;
+                    }
+                    
+                    
+                    if (sample[i] == "~")
+                    {
+                        envelope.keyOff();
+                        Dur(TEMPO,Division)/MEASURE => now;
+                    }
+                }
+            }
+        }
+        if(mode == 3)
+        {
+            while(true)
+            {
+                for(0 => int i; i < sample.cap(); i++)
+                {
+                    if (sample[i] != "~")
+                    {
+                        file(sample[i]) => buffer.read;
+                        envelope.keyOn();
+                        0 => buffer.pos;
+                        Dur(TEMPO,Division)*CYCLES/MEASURE => now;
+                    }
+                    else
+                    {
+                        envelope.keyOff();
+                        Dur(TEMPO,Division)*CYCLES/MEASURE => now;
+                    }
+                }
+            }
+        }
     }
 }
