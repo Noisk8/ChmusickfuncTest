@@ -1,7 +1,5 @@
 public class Chmusick extends Chubgraph {
 
-    //Buffer buffer;
-
     8 => int Division;
     120 => static float TEMPO;
 
@@ -639,8 +637,8 @@ public class Chmusick extends Chubgraph {
                         0 => buffer.pos;
                         Dur(TEMPO,Division) => now;
                     }
-                    
-                    
+
+
                     if (sample[i] == "~")
                     {
                         envelope.keyOff();
@@ -683,8 +681,8 @@ public class Chmusick extends Chubgraph {
                         0 => buffer.pos;
                         Dur(TEMPO,Division)/MEASURE => now;
                     }
-                    
-                    
+
+
                     if (sample[i] == "~")
                     {
                         envelope.keyOff();
