@@ -214,6 +214,19 @@ public class Chmusick extends Chubgraph {
         }
         return pattern;
     }
+    public int[] granularize(int array[], int howmany)
+    {
+        int granularized[0];
+        
+        for(0 => int count; count < array.cap(); count++)
+        {
+            for(0 => int i; i < howmany; i++)
+            {
+                granularized << array[count];
+            }
+        }
+        return granularized;
+    }
     public int[] transpose(int pattern[], int param)
     // transpose note by param
     {
