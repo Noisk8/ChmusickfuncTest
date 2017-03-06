@@ -140,6 +140,19 @@ public class Chmusick extends Chubgraph {
         }
         return pattern;
     }
+    public int[] density(int pattern[],int times)
+    {
+        int toReturn[0];
+
+        for(0 => int i; i < times; i++)
+        {
+            for(0 => int j; j < pattern.size(); j++)
+            {
+                toReturn << pattern[j];
+            }
+        }
+        return toReturn;  
+    }
     public int[] degrade(int pattern[])
     // randomly removes non zero events of an int array
     {
@@ -186,6 +199,20 @@ public class Chmusick extends Chubgraph {
         }
 
         return everyArray;
+    }
+    public int[] randomize(int pattern[])
+    //shuffle pattern
+    {
+        int toReturn[pattern.size()];
+
+        for(pattern.cap()-1 => int i; i > 0; i--)
+        {
+            Math.random2(0,pattern.size()) % (i+1) => int j;
+            pattern[j] => int temp;
+            pattern[i] => pattern[j];
+            temp => pattern[i];
+        }
+        return pattern;
     }
     public int[] transpose(int pattern[], int param)
     // transpose note by param
@@ -251,7 +278,7 @@ public class Chmusick extends Chubgraph {
         }
         return notesOn;
     }
-    public int[] density(int pattern[], float parameter)
+    public int[] densify(int pattern[], float parameter)
     //densify or degrade an array with a float parameter as percentage
     {
         int toReturn[pattern.cap()];
@@ -447,14 +474,14 @@ public class Chmusick extends Chubgraph {
                     {
                         envelope.keyOn();
                         Std.mtof(sample[i]) => osc.freq;
-                        Dur(TEMPO,Division) => now;
+                        Dur(TEMPO/2,Division)/sample.cap() => now;
                     }
 
 
                     if (sample[i] == 0)
                     {
                         envelope.keyOff();
-                        Dur(TEMPO,Division) => now;
+                        Dur(TEMPO/2,Division)/sample.cap() => now;
                     }
                 }
             }
@@ -488,14 +515,14 @@ public class Chmusick extends Chubgraph {
                     {
                         envelope.keyOn();
                         Std.mtof(sample[i]) => osc.freq;
-                        Dur(TEMPO,Division)/sample.cap() => now;
+                        Dur(TEMPO,Division)/MEASURE => now;
                     }
 
 
                     if (sample[i] == 0)
                     {
                         envelope.keyOff();
-                        Dur(TEMPO,Division) => now;
+                        Dur(TEMPO,Division)/MEASURE => now;
                     }
                 }
             }
@@ -509,12 +536,12 @@ public class Chmusick extends Chubgraph {
                     {
                         envelope.keyOn();
                         Std.mtof(sample[i]) => osc.freq;
-                        Dur(TEMPO,Division) => now;
+                        Dur(TEMPO,Division)*CYCLES/MEASURE => now;
                     }
                     else
                     {
                         envelope.keyOff();
-                        Dur(TEMPO,Division)/sample.cap() => now;
+                        Dur(TEMPO,Division)*CYCLES/MEASURE => now;
                     }
                 }
             }
@@ -583,7 +610,7 @@ public class Chmusick extends Chubgraph {
                         envelope.keyOn();
                         1.0 => osc.noteOn;
                         Std.mtof(sample[i]) => osc.freq;
-                        Dur(TEMPO,Division)/sample.cap() => now;
+                        Dur(TEMPO,Division)/MEASURE => now;
                     }
 
 
@@ -591,7 +618,7 @@ public class Chmusick extends Chubgraph {
                     {
                         envelope.keyOff();
                         0.0 => osc.noteOff;
-                        Dur(TEMPO,Division) => now;
+                        Dur(TEMPO,Division)/MEASURE => now;
                     }
                 }
             }
@@ -606,13 +633,13 @@ public class Chmusick extends Chubgraph {
                         envelope.keyOn();
                         1.0 => osc.noteOn;
                         Std.mtof(sample[i]) => osc.freq;
-                        Dur(TEMPO,Division) => now;
+                        Dur(TEMPO,Division)*CYCLES/MEASURE => now;
                     }
                     else
                     {
                         envelope.keyOff();
                         0.0 => osc.noteOff;
-                        Dur(TEMPO,Division)/sample.cap() => now;
+                        Dur(TEMPO,Division)*CYCLES/MEASURE => now;
                     }
                 }
             }
