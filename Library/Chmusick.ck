@@ -1,17 +1,17 @@
 public class Chmusick extends Chubgraph {
 
     8 => int Division;
-    120 => static float TEMPO;
+    130 => static float TEMPO;
 
     4 => static int MEASURE;
-    4 => static int CYCLES;
+    2 => static int CYCLES;
 
-    public float tempo(float t)
+    public static float tempo(float t)
     {
         t => TEMPO;
         return TEMPO;
     }
-    public float tempo()
+    public static float tempo()
     {
         return TEMPO;
     }
@@ -151,7 +151,7 @@ public class Chmusick extends Chubgraph {
                 toReturn << pattern[j];
             }
         }
-        return toReturn;  
+        return toReturn;
     }
     public int[] degrade(int pattern[])
     // randomly removes non zero events of an int array
@@ -217,7 +217,7 @@ public class Chmusick extends Chubgraph {
     public int[] granularize(int array[], int howmany)
     {
         int granularized[0];
-        
+
         for(0 => int count; count < array.cap(); count++)
         {
             for(0 => int i; i < howmany; i++)
@@ -752,5 +752,8 @@ public class Chmusick extends Chubgraph {
                 }
             }
         }
+    }
+    public void play(SndBuf buffer, string sample[]){
+        play(buffer,sample,0);
     }
 }
